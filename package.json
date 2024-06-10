@@ -2,14 +2,14 @@
   "name": "backend-repo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "/core/app.ts",
   "scripts": {
-    "start": "ts-node app.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node ./core/app.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "firebase": "^10.12.2"
   },
