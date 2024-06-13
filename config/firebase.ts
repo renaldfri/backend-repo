@@ -1,15 +1,9 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore/lite';
+import * as admin from 'firebase-admin';
+import serviceAccount from "./serviceAccount.json";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+});
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app)
+export const auth = admin.auth();
+export const db = admin.firestore();

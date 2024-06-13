@@ -1,5 +1,4 @@
 import { db } from '../config/firebase';
-import { collection, getDocs, addDoc, doc } from 'firebase/firestore/lite';
 
 interface User {
   id: string;
@@ -7,11 +6,13 @@ interface User {
   email: string;
 }
 
+const USERS_COLLECTION = 'users';
+
 class UserCollection {
-  private collection = collection(db, 'users');
+  private collection = db.collection(USERS_COLLECTION);
 
   public async addUser(name: string, email: string): Promise<User> {
-    const newUserRef = doc(this.collection)
+    const newUserRef = await this.collection.add({ name, email });
     
     const user: User = {
       id : newUserRef.id,
@@ -19,15 +20,15 @@ class UserCollection {
       email,
     };
 
-    await addDoc(this.collection, user)
-    
     return user;
   }
 
   public async getUsers(): Promise<User[]> {
-    const snapshot = await getDocs(this.collection);
+    const snapshot = await this.collection.get();
     const users: User[] = [];
-    snapshot.docs.map((doc: any) => users.push(doc.data() as User));
+    snapshot.forEach((doc) => {
+      users.push({ id: doc.id, ...doc.data() } as User);
+    });
     return users;
   }
 }
