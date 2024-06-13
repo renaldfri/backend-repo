@@ -1,3 +1,9 @@
+import dotenv from 'dotenv';
+const envLoadResult = dotenv.config();
+if(envLoadResult.error) {
+  throw envLoadResult.error
+}
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -7,7 +13,7 @@ import { ApiError } from './model/ApiError';
 
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT;
 
 app.use(cors({
   origin: 'http://localhost:3000', // Allow requests from this origin
